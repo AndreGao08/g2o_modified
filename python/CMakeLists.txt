@@ -1,9 +1,22 @@
+#set(PYTHON_LIBRARY "/home/andre/anaconda3/envs/pyslam/lib/libpython3.8.so")
+#set(PYTHON_INCLUDE_DIR "/home/andre/anaconda3/envs/pyslam/include/python3.8")
+#set(Python_EXECUTABLE "/home/andre/anaconda3/envs/pyslam/bin/python3.8")
+set(WITH_PYTHON_INTERP_CHECK OFF CACHE BOOL "Checking python interpreter") # to be activated when called within virtual python environment 
+
 include_directories(${PROJECT_SOURCE_DIR})
 
 include_directories(${EIGEN3_INCLUDE_DIR})
 include_directories(${CHOLMOD_INCLUDE_DIR})
 include_directories(${CSPARSE_INCLUDE_DIR})
 
+# the following 2 lines are added to correctly detect the python version 
+if(WITH_PYTHON_INTERP_CHECK)
+  message(STATUS "WITH_PYTHON_INTERP_CHECK: ${WITH_PYTHON_INTERP_CHECK}")
+  find_package(PythonInterp) 
+  find_package(PythonLibs)
+  message(STATUS "PythonInterp: ${PythonInterp}")
+  message(STATUS "PythonLibs: ${PythonLibs}")
+endif()
 
 # pybind11 (version 2.2.1)
 LIST(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/EXTERNAL/pybind11/tools)
